@@ -1,0 +1,57 @@
+parameters:
+  cluster_name: 'default-cluster-name'
+  control_plane_cpus: 4
+  control_plane_ram: 16384
+  control_plane_disk: 30
+  workers: 2
+  worker_cpus: 2
+  worker_ram: 8192
+  worker_disk: 30
+  network: default
+  network_prefix: 192.168.0 # I'll be assuming a /24 where masters have IPs .10, .11 and .12, workers will have .(20+n) IPs and the other ones are reserved.
+
+{{ cluster_name }}-controlplane:
+  type: profile
+  uefi: true
+  start: false
+  numcpus: {{ control_plane_cpus }}
+  ram: {{ control_plane_ram }}
+  disks:
+  - {{ control_plane_disk }}
+
+{{ cluster_name }}-worker:
+  type: profile
+  uefi: true
+  start: false
+  numcpus: {{ worker_cpus }}
+  ram: {{ worker_ram }}
+  disks:
+  - {{ worker_disk }}
+
+{% for controlplane in range(0,3) %}
+{{ cluster_name }}-controlplane-{{ controlplane }}:
+  profile:  {{ cluster_name }}-controlplane
+  nets: 
+  - name: {{ network }}
+    ip: {{ network_prefix }}.{{ controlplane+10 }}
+
+{{ cluster_name }}-controlplane-{{ controlplane }}-dns:
+  type: dns
+  alias: ["{{ cluster_name }}-controlplane-{{ controlplane }}"]
+  net: {{ network }}
+  ip: {{ network_prefix }}.{{ controlplane+10 }}
+{% endfor %}
+
+{% for worker in range(0,workers) %}
+{{ cluster_name }}-worker-{{ worker }}:
+  profile:  {{ cluster_name }}-worker
+  nets: 
+  - name: {{ network }}
+    ip: {{ network_prefix }}.{{ worker+20 }}
+
+{{ cluster_name }}-worker-{{ worker }}-dns:
+  type: dns
+  alias: ["{{ cluster_name }}-worker-{{ worker }}"]
+  net: {{ network }}
+  ip: {{ network_prefix }}.{{ worker+20 }}
+{% endfor %}
