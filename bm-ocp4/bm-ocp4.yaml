@@ -9,6 +9,7 @@ parameters:
   worker_disk: 30
   network: default
   network_prefix: 192.168.0 # I'll be assuming a /24 where masters have IPs .10, .11 and .12, workers will have .(20+n) IPs and the other ones are reserved.
+  api_vip: 192.168.0.2 # For apps wildcard, see companion script for libvirt
 
 {{ cluster_name }}-controlplane:
   type: profile
@@ -55,3 +56,8 @@ parameters:
   net: {{ network }}
   ip: {{ network_prefix }}.{{ worker+20 }}
 {% endfor %}
+
+api:
+  type: dns
+  net: {{ network }}
+  ip: {{ api_vip }}
