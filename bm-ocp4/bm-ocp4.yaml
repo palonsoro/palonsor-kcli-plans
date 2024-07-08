@@ -36,9 +36,8 @@ parameters:
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ controlplane+10 }}
 
-{{ cluster_name }}-controlplane-{{ controlplane }}-dns:
+{{ cluster_name }}-controlplane-{{ controlplane }}:
   type: dns
-  alias: ["{{ cluster_name }}-controlplane-{{ controlplane }}"]
   net: {{ network }}
   ip: {{ network_prefix }}.{{ controlplane+10 }}
 {% endfor %}
@@ -50,9 +49,8 @@ parameters:
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ worker+20 }}
 
-{{ cluster_name }}-worker-{{ worker }}-dns:
+{{ cluster_name }}-worker-{{ worker }}:
   type: dns
-  alias: ["{{ cluster_name }}-worker-{{ worker }}"]
   net: {{ network }}
   ip: {{ network_prefix }}.{{ worker+20 }}
 {% endfor %}
