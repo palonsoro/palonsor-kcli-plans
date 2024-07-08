@@ -15,7 +15,7 @@ parameters:
   uefi: true
   start: false
   numcpus: {{ control_plane_cpus }}
-  ram: {{ control_plane_ram }}
+  memory: {{ control_plane_ram }}
   disks:
   - {{ control_plane_disk }}
 
@@ -24,7 +24,7 @@ parameters:
   uefi: true
   start: false
   numcpus: {{ worker_cpus }}
-  ram: {{ worker_ram }}
+  memory: {{ worker_ram }}
   disks:
   - {{ worker_disk }}
 
