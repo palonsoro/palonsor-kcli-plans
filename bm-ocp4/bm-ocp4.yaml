@@ -35,6 +35,7 @@ parameters:
   nets: 
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ controlplane+10 }}
+    mac: aa:aa:aa:aa:05:{{ "%0x"|format(controlplane+10) }}
 
 {{ cluster_name }}-controlplane-{{ controlplane }}:
   type: dns
@@ -48,6 +49,7 @@ parameters:
   nets: 
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ worker+20 }}
+    mac: aa:aa:aa:aa:05:{{ "%0x"|format(worker+20) }}
 
 {{ cluster_name }}-worker-{{ worker }}:
   type: dns
