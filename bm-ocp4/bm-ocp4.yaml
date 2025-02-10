@@ -3,6 +3,7 @@ parameters:
   control_plane_cpus: 4
   control_plane_ram: 16384
   control_plane_disk: 30
+  controlplanes: 3
   workers: 2
   worker_cpus: 2
   worker_ram: 8192
@@ -29,7 +30,7 @@ parameters:
   disks:
   - {{ worker_disk }}
 
-{% for controlplane in range(0,3) %}
+{% for controlplane in range(0,controlplanes) %}
 {{ cluster_name }}-controlplane-{{ controlplane }}:
   profile:  {{ cluster_name }}-controlplane
   nets: 
