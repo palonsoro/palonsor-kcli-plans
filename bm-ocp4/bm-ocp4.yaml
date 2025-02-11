@@ -11,6 +11,7 @@ parameters:
   network: default
   network_prefix: 192.168.0 # I'll be assuming a /24 where masters have IPs .10, .11 and .12, workers will have .(20+n) IPs and the other ones are reserved.
   api_vip: 192.168.0.2 # For apps wildcard, see companion script for libvirt
+  mac_prefix: aa:aa:aa:aa:05
 
 {{ cluster_name }}-controlplane:
   type: profile
@@ -36,7 +37,7 @@ parameters:
   nets: 
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ controlplane+10 }}
-    mac: aa:aa:aa:aa:05:{{ "%0x"|format(controlplane+10) }}
+    mac: {{ mac_prefix }}:{{ "%0x"|format(controlplane+10) }}
 
 {{ cluster_name }}-controlplane-{{ controlplane }}:
   type: dns
@@ -50,7 +51,7 @@ parameters:
   nets: 
   - name: {{ network }}
     ip: {{ network_prefix }}.{{ worker+20 }}
-    mac: aa:aa:aa:aa:05:{{ "%0x"|format(worker+20) }}
+    mac: {{ mac_prefix }}:{{ "%0x"|format(worker+20) }}
 
 {{ cluster_name }}-worker-{{ worker }}:
   type: dns
