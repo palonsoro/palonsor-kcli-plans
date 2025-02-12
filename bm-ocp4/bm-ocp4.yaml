@@ -3,11 +3,13 @@ parameters:
   control_plane_cpus: 4
   control_plane_ram: 16384
   control_plane_disk: 30
+  control_plane_second_disk: 50
   controlplanes: 3
   workers: 2
   worker_cpus: 2
   worker_ram: 8192
   worker_disk: 30
+  worker_second_disk: 50
   network: default
   network_prefix: 192.168.0 # I'll be assuming a /24 where masters have IPs .10, .11 and .12, workers will have .(20+n) IPs and the other ones are reserved.
   api_vip: 192.168.0.2 # For apps wildcard, see companion script for libvirt
@@ -21,6 +23,7 @@ parameters:
   memory: {{ control_plane_ram }}
   disks:
   - {{ control_plane_disk }}
+  - {{ control_plane_second_disk }}
 
 {{ cluster_name }}-worker:
   type: profile
@@ -30,6 +33,7 @@ parameters:
   memory: {{ worker_ram }}
   disks:
   - {{ worker_disk }}
+  - {{ worker_second_disk }}
 
 {% for controlplane in range(0,controlplanes) %}
 {{ cluster_name }}-controlplane-{{ controlplane }}:
