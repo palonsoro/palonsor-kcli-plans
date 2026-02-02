@@ -19,6 +19,7 @@ parameters:
   type: profile
   uefi: true
   start: false
+  user: core
   numcpus: {{ control_plane_cpus }}
   memory: {{ control_plane_ram }}
   disks:
@@ -29,6 +30,7 @@ parameters:
   type: profile
   uefi: true
   start: false
+  user: core
   numcpus: {{ worker_cpus }}
   memory: {{ worker_ram }}
   disks:
