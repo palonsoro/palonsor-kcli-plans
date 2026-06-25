@@ -69,3 +69,8 @@ api:
   type: dns
   net: {{ network }}
   ip: {{ api_vip }}
+
+api-int:
+  type: dns
+  net: {{ network }}
+  ip: {{ api_vip }}
